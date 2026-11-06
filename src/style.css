@@ -150,16 +150,12 @@ p { margin: 0 0 1em; text-wrap: pretty; }
 
 figure { margin: 0; }
 
-/* close-ups of the printed book, offset like a magazine layout */
+/* close-ups of the printed book, centered at every width so the bleed reads as a close-up, not a clip */
 .mock {
   max-width: 1080px;
   margin: 0 auto clamp(56px, 8vw, 110px);
 }
 .mock img { width: 100%; border-radius: 6px; }
-@media (min-width: 900px) {
-  .mock-left { margin-left: max(0px, calc(50% - 640px)); margin-right: auto; width: 86%; }
-  .mock-right { margin-right: max(0px, calc(50% - 640px)); margin-left: auto; width: 86%; }
-}
 
 /* full spreads: the painting laid out as an open book */
 .spread {
