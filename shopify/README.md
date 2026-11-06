@@ -4,15 +4,20 @@ The storefront at shop.lookupfin.com. One product, one page: the jacket flap fro
 lookupfin.com with the price and stock coming from Shopify, and the buy button
 going straight to checkout.
 
-The story and author pages stay on lookupfin.com (repo `ugknarf/look-up-fin`).
+The story and author pages stay on lookupfin.com in this repo.
 This theme links back there and loads its art and favicons from there, so every
 image exists once.
 
 ## How it deploys
 
-Shopify's GitHub integration watches `main`. Push, and the theme updates in the
-store within a minute. No build step. (Shopify needs the theme at the repo root,
-which is why this is its own repo instead of a folder in `look-up-fin`.)
+    python3 tools/theme.py push            # upload shopify/ as an unpublished theme named after the branch
+    python3 tools/theme.py list            # themes in the store, with preview links
+    python3 tools/theme.py publish NAME    # make it live
+    python3 tools/theme.py pull NAME       # bring Customize-editor edits back into git
+
+Variants are branches. The first upload of a new theme name is a zip upload in
+Online Store > Themes > Import; after that `push` replaces it in place.
+Credentials: ~/.config/lookupfin/shopify.env (see tools/shopify.py).
 
 ## What Emily can change without code
 
