@@ -73,6 +73,31 @@ def share_card():
     print(f"{out.name:32} {W}x{H}  {out.stat().st_size / 1024:6.0f} KB")
 
 
+def deep_tall(extra=160, trim=10):
+    """Footer art with the anglerfish lifted: grow the plain water under it.
+
+    The bottom rows of deep.jpg are empty painted water. Append them mirrored,
+    then upright again, so both joins are seamless and the fish sits higher
+    above the footer rule. The painting itself is untouched, except `trim`
+    rows off the very bottom, which are lighter and would show as a line.
+    """
+    src = Image.open(ART / "deep.jpg").convert("RGB")
+    src = src.crop((0, 0, src.width, src.height - trim))
+    w, h = src.size
+    strip = src.crop((0, h - extra // 2, w, h))
+    tall = Image.new("RGB", (w, h + extra))
+    tall.paste(src, (0, 0))
+    tall.paste(strip.transpose(Image.FLIP_TOP_BOTTOM), (0, h))
+    tall.paste(strip, (0, h + extra // 2))
+    tall.save(ART / "deep-tall.jpg", "JPEG", quality=82, optimize=True, progressive=True)
+    for tw in (900, 1800):
+        th = round(tall.height * tw / w)
+        out = ART / f"deep-tall-{tw}.webp"
+        tall.resize((tw, th), Image.LANCZOS).save(out, "WEBP", quality=QUALITY, method=6)
+        print(f"{out.name:32} {tw}x{th}  {out.stat().st_size / 1024:6.0f} KB")
+
+
 if __name__ == "__main__":
     export_webp()
     share_card()
+    deep_tall()

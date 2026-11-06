@@ -320,8 +320,8 @@ figure { margin: 0; }
 .deep {
   position: relative;
   color: #f4f1e8;
-  background: var(--abyss) image-set(url("/art/deep-1800.webp") type("image/webp"), url("/art/deep.jpg") type("image/jpeg")) right bottom / cover no-repeat;
-  padding: clamp(80px, 12vw, 160px) var(--gutter) 32px;
+  background: var(--abyss) image-set(url("/art/deep-tall-1800.webp") type("image/webp"), url("/art/deep-tall.jpg") type("image/jpeg")) right bottom / cover no-repeat;
+  padding: clamp(44px, 5vw, 72px) var(--gutter) 32px;
 }
 .deep-inner { max-width: 1180px; margin: 0 auto; }
 .deep-line {
@@ -376,7 +376,7 @@ figure { margin: 0; }
   .flap-cover { max-width: 300px; margin: 0 auto; }
   .specs { grid-template-columns: 1fr; }
   .signup-row { flex-direction: column; }
-  .deep { background-image: image-set(url("/art/deep-900.webp") type("image/webp"), url("/art/deep.jpg") type("image/jpeg")); }
+  .deep { background-image: image-set(url("/art/deep-tall-900.webp") type("image/webp"), url("/art/deep-tall.jpg") type("image/jpeg")); background-size: auto 150%; } /* lifts the fish clear of the footer rule on narrow screens */
 }
 
 @media (prefers-reduced-motion: reduce) {
