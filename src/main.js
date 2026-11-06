@@ -6,7 +6,7 @@ const CONFIG = {
   price: "$19.99", // keep it the same as Amazon
   shipNote: "Ships by mid-December · Free Shipping on 2+ copies", // once books are in hand: "Ships within 3 business days."
   deadline: "", // e.g. "Pre-orders close November 19." — empty hides the line
-  shopUrl: "https://jn1fgr-zj.myshopify.com/cart/57894542016678:1?channel=buy_button", // Shopify checkout link: /cart/VARIANT_ID:QUANTITY
+  shopUrl: "https://shop.lookupfin.com/cart/57894542016678:1?channel=buy_button", // Shopify checkout link: /cart/VARIANT_ID:QUANTITY
   maxQty: 5, // cap on the quantity picker; bigger orders email for a quote
   amazonUrl: "#", // Amazon listing
   instagramUrl: "https://www.instagram.com/emcostudios/", // @emcostudios
