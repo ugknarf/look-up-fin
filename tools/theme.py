@@ -40,7 +40,7 @@ def find(name):
 
 
 def preview_url(theme_id):
-    store, _ = load_env()
+    store, _, _ = load_env()
     tid = theme_id.rsplit("/", 1)[1]
     return f"https://shop.lookupfin.com/?preview_theme_id={tid}"
 

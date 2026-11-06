@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Change the Look Up, Fin! Shopify store from the command line.
 
-Reads SHOPIFY_STORE and SHOPIFY_ADMIN_TOKEN from the environment, or from
-~/.config/lookupfin/shopify.env (one KEY=value per line). The token comes from
-the "lookupfin-cli" custom app in Shopify's Dev Dashboard. Never commit it.
+Reads SHOPIFY_STORE, SHOPIFY_CLIENT_ID and SHOPIFY_CLIENT_SECRET from the
+environment, or from ~/.config/lookupfin/shopify.env (one KEY=value per line).
+They come from the "lookupfin-cli" app in Shopify's Dev Dashboard (Credentials
+card). Never commit them. Access tokens are minted on demand with the client
+credentials grant and cached in ~/.config/lookupfin/token.json for 24 hours.
 
     python3 tools/shopify.py shop                      # who am I talking to
     python3 tools/shopify.py product                   # the book: id, price, stock, status
@@ -25,25 +27,53 @@ API_VERSION = "2026-10"
 PRODUCT_HANDLE = "look-up-fin"
 
 
+CONFIG_DIR = Path.home() / ".config/lookupfin"
+
+
 def load_env():
-    f = Path.home() / ".config/lookupfin/shopify.env"
+    f = CONFIG_DIR / "shopify.env"
     if f.exists():
         for line in f.read_text().splitlines():
             if "=" in line and not line.lstrip().startswith("#"):
                 k, v = line.split("=", 1)
                 os.environ.setdefault(k.strip(), v.strip())
-    store, token = os.environ.get("SHOPIFY_STORE"), os.environ.get("SHOPIFY_ADMIN_TOKEN")
-    if not store or not token:
-        sys.exit("Need SHOPIFY_STORE and SHOPIFY_ADMIN_TOKEN (env or ~/.config/lookupfin/shopify.env).")
-    return store, token
+    store = os.environ.get("SHOPIFY_STORE")
+    cid, secret = os.environ.get("SHOPIFY_CLIENT_ID"), os.environ.get("SHOPIFY_CLIENT_SECRET")
+    if not (store and cid and secret):
+        sys.exit("Need SHOPIFY_STORE, SHOPIFY_CLIENT_ID, SHOPIFY_CLIENT_SECRET (env or ~/.config/lookupfin/shopify.env).")
+    return store, cid, secret
+
+
+def access_token():
+    """Client-credentials token for the lookupfin-cli app, cached until it expires."""
+    import time
+    store, cid, secret = load_env()
+    cache = CONFIG_DIR / "token.json"
+    if cache.exists():
+        t = json.loads(cache.read_text())
+        if t.get("store") == store and t.get("expires_at", 0) > time.time() + 60:
+            return t["access_token"]
+    req = urllib.request.Request(
+        f"https://{store}.myshopify.com/admin/oauth/access_token",
+        data=json.dumps({"client_id": cid, "client_secret": secret, "grant_type": "client_credentials"}).encode(),
+        headers={"Content-Type": "application/json"},
+    )
+    with urllib.request.urlopen(req) as r:
+        t = json.load(r)
+    t["store"] = store
+    t["expires_at"] = time.time() + int(t.get("expires_in", 86400))
+    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps(t))
+    cache.chmod(0o600)
+    return t["access_token"]
 
 
 def gql(query, variables=None):
-    store, token = load_env()
+    store, _, _ = load_env()
     req = urllib.request.Request(
         f"https://{store}.myshopify.com/admin/api/{API_VERSION}/graphql.json",
         data=json.dumps({"query": query, "variables": variables or {}}).encode(),
-        headers={"Content-Type": "application/json", "X-Shopify-Access-Token": token},
+        headers={"Content-Type": "application/json", "X-Shopify-Access-Token": access_token()},
     )
     with urllib.request.urlopen(req) as r:
         body = json.load(r)
