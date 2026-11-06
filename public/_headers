@@ -1,0 +1,7 @@
+# Vite fingerprints these filenames, so they can be cached forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Art keeps its filenames, so cache for a week and let browsers revalidate after.
+/art/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400

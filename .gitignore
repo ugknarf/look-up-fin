@@ -1,0 +1,5 @@
+node_modules/
+dist/
+netlify-upload/
+.DS_Store
+__pycache__/
