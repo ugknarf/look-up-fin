@@ -1,0 +1,41 @@
+{% comment %} The jacket flap from lookupfin.com, driven by the Shopify product. Pass `product`. {% endcomment %}
+{% assign variant = product.selected_or_first_available_variant | default: product.variants.first %}
+{% assign preorder = false %}{% if settings.status == 'preorder' %}{% assign preorder = true %}{% endif %}
+{% assign verb = 'Buy' %}{% if preorder %}{% assign verb = 'Preorder' %}{% endif %}
+<section class="buy" id="buy">
+  <div class="flap reveal in">
+    <div class="flap-cover">
+      <img src="{{ settings.site_url }}/art/cover-800.webp" srcset="{{ settings.site_url }}/art/cover-480.webp 480w, {{ settings.site_url }}/art/cover-800.webp 800w" sizes="(max-width: 760px) 300px, 420px" alt="Cover of {{ product.title | escape }}" width="1412" height="1412" />
+      {% if settings.signed %}<span class="sticker">Signed<br />by the<br />author</span>{% endif %}
+    </div>
+    <div class="flap-body">
+      <p class="kicker">Bring Fin home</p>
+      <h2>{{ product.title }}</h2>
+      <p class="flap-sub">A little shark, a big ocean, and the moment he finally looks up.</p>
+      <p class="price" data-price>{{ variant.price | money }}</p>
+      <p class="ship-note">{{ settings.ship_note }}</p>
+      {% if preorder and settings.deadline != blank %}<p class="deadline">{{ settings.deadline }}</p>{% endif %}
+      {% if variant.available %}
+        <div class="buy-row" data-buy data-unit="{{ variant.price }}" data-max="{{ settings.max_qty }}" data-verb="{{ verb }}">
+          <div class="qty" data-qty role="group" aria-label="Quantity">
+            <button type="button" class="qty-btn" data-qty-step="-1" aria-label="One fewer copy">−</button>
+            <output class="qty-num" data-qty-num aria-live="polite">1</output>
+            <button type="button" class="qty-btn" data-qty-step="1" aria-label="One more copy">+</button>
+          </div>
+          <a class="pill pill-lg" href="/cart/{{ variant.id }}:1" data-shop data-variant="{{ variant.id }}">{{ verb }} – {{ variant.price | money }}</a>
+          {% if settings.amazon_url != blank %}<a class="text-link" href="{{ settings.amazon_url }}">or find it on Amazon</a>{% endif %}
+        </div>
+        <p class="bulk-note" data-bulk>Need more than {{ settings.max_qty }} copies? Email <a href="mailto:{{ settings.contact_email }}?subject=Look%20Up%2C%20Fin!%20bulk%20order">{{ settings.contact_email }}</a> for a bulk order.</p>
+      {% else %}
+        <div class="buy-row"><span class="pill pill-lg" aria-disabled="true">Sold out</span></div>
+        <p class="bulk-note">Want to know when it’s back? Email <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>.</p>
+      {% endif %}
+      <ul class="specs">
+        <li>Hardcover · 8.5 × 8.5 in</li>
+        <li>24 pages, full color</li>
+        <li>Ages 2–6</li>
+        <li>ISBN 979-8-9822123-1-3</li>
+      </ul>
+    </div>
+  </div>
+</section>

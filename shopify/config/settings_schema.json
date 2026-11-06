@@ -1,0 +1,30 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Look Up, Fin!",
+    "theme_version": "1.0.0",
+    "theme_author": "emco studios",
+    "theme_documentation_url": "https://github.com/ugknarf/look-up-fin-shop",
+    "theme_support_url": "mailto:hello@lookupfin.com"
+  },
+  {
+    "name": "The book",
+    "settings": [
+      { "type": "text", "id": "product_handle", "label": "Product handle", "default": "look-up-fin", "info": "The URL handle of the product in Shopify > Products." },
+      { "type": "select", "id": "status", "label": "Status", "default": "preorder", "options": [ { "value": "preorder", "label": "Preorder" }, { "value": "available", "label": "Available" } ] },
+      { "type": "text", "id": "ship_note", "label": "Shipping note", "default": "Ships by mid-December · Free Shipping on 2+ copies" },
+      { "type": "text", "id": "deadline", "label": "Preorder deadline", "info": "Shown only while Status is Preorder. Leave empty to hide." },
+      { "type": "checkbox", "id": "signed", "label": "Show the “Signed by the author” sticker", "default": true },
+      { "type": "range", "id": "max_qty", "label": "Max copies per order", "min": 1, "max": 20, "step": 1, "default": 5, "info": "Bigger orders are asked to email for a bulk quote." }
+    ]
+  },
+  {
+    "name": "Links",
+    "settings": [
+      { "type": "url", "id": "site_url", "label": "Main site", "default": "https://lookupfin.com", "info": "Where the story, the author note, favicons and art live." },
+      { "type": "url", "id": "amazon_url", "label": "Amazon listing", "info": "Leave empty until the listing is live." },
+      { "type": "url", "id": "instagram_url", "label": "Instagram", "default": "https://www.instagram.com/emcostudios/" },
+      { "type": "text", "id": "contact_email", "label": "Contact email", "default": "hello@lookupfin.com" }
+    ]
+  }
+]

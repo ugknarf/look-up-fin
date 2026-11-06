@@ -1,0 +1,10 @@
+{% comment %} Cart is just a stop on the way to checkout. {% endcomment %}
+{% if cart.item_count > 0 %}
+  <meta http-equiv="refresh" content="0; url=/checkout" />
+  <section class="title-page">
+    <p class="kicker">Taking you to checkout…</p>
+    <div class="title-cta"><a class="pill pill-lg" href="/checkout">Continue to checkout</a></div>
+  </section>
+{% else %}
+  {% render 'back-to-book', heading: 'Your cart is empty.' %}
+{% endif %}

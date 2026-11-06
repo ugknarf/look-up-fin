@@ -1,0 +1,6 @@
+{% assign book = all_products[settings.product_handle] %}
+{% if book.empty? or book == blank %}
+  {% render 'back-to-book', heading: 'The book isn’t in the shop yet.' %}
+{% else %}
+  {% render 'flap', product: book %}
+{% endif %}

@@ -1,0 +1,3 @@
+{% layout none %}
+<!doctype html><html><head><meta charset="utf-8"><title>{{ shop.name }} gift card</title></head>
+<body><p>Gift card: {{ gift_card.code | format_code }} — {{ gift_card.balance | money }}</p></body></html>
