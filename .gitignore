@@ -3,3 +3,8 @@ dist/
 netlify-upload/
 .DS_Store
 __pycache__/
+
+# Shopify credentials live in ~/.config/lookupfin, never here
+shopify.env
+token.json
+*.env
