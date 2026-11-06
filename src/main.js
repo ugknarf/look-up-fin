@@ -11,6 +11,7 @@ const CONFIG = {
   amazonUrl: "#", // Amazon listing
   instagramUrl: "https://www.instagram.com/emcostudios/", // @emcostudios
   contactEmail: "hello@lookupfin.com",
+  metaPixelId: "", // Meta (Facebook) pixel id from Events Manager; empty = no pixel
   // "Join the list" is collected by Netlify Forms: see the <form> in index.html.
 };
 
@@ -118,8 +119,25 @@ function setupSignup() {
   });
 }
 
+// Meta pixel: PageView on load, InitiateCheckout when a buy button is clicked.
+// Purchase events come from Shopify's Facebook & Instagram channel, not from here.
+function setupMetaPixel() {
+  if (!CONFIG.metaPixelId) return;
+  const n = (window.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); });
+  n.push = n; n.loaded = true; n.version = "2.0"; n.queue = [];
+  const s = document.createElement("script");
+  s.async = true; s.src = "https://connect.facebook.net/en_US/fbevents.js";
+  document.head.appendChild(s);
+  fbq("init", CONFIG.metaPixelId);
+  fbq("track", "PageView");
+  document.querySelectorAll("[data-shop]").forEach((el) =>
+    el.addEventListener("click", () => fbq("track", "InitiateCheckout", { content_name: "Look Up, Fin!", currency: "USD" }))
+  );
+}
+
 applyConfig();
 revealOnScroll();
+setupMetaPixel();
 setupSignup();
 
 // A hairline under the top bar once the page has scrolled.
