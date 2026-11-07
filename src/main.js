@@ -11,7 +11,7 @@ const CONFIG = {
   amazonUrl: "#", // Amazon listing
   instagramUrl: "https://www.instagram.com/emcostudios/", // @emcostudios
   contactEmail: "hello@lookupfin.com",
-  metaPixelId: "", // Meta (Facebook) pixel id from Events Manager; empty = no pixel
+  metaPixelId: "1651741183062969", // Meta (Facebook) pixel id from Events Manager; empty = no pixel
   // "Join the list" is collected by Netlify Forms: see the <form> in index.html.
 };
 
