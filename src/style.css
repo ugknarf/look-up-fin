@@ -286,6 +286,16 @@ figure { margin: 0; }
 }
 .qty-btn:hover:not(:disabled) { color: var(--coral-deep); }
 .qty-btn:disabled { opacity: 0.3; cursor: default; }
+/* "This is a gift" checkbox and note above the buy button */
+.gift { margin: 4px 0 16px; }
+.gift-check { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.95rem; color: var(--ink); cursor: pointer; }
+.gift-check input { width: 18px; height: 18px; margin: 0; accent-color: var(--coral-deep); }
+.gift-note { margin-top: 10px; }
+.gift-note[hidden] { display: none; }
+.gift-note label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: var(--ink-soft); }
+.gift-hint { font-weight: 400; }
+.gift-note textarea { box-sizing: border-box; width: 100%; max-width: 420px; padding: 10px 12px; border: 2px solid var(--ink); border-radius: 12px; background: #fff; font: 500 0.95rem/1.4 var(--body); color: var(--ink); resize: vertical; }
+.gift-note textarea:focus { outline: none; border-color: var(--coral-deep); }
 .bulk-note {
   margin: 12px 0 0;
   font-size: 0.85rem;

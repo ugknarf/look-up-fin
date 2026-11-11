@@ -53,8 +53,27 @@ function setupQty(preorder) {
   const unit = parseFloat(CONFIG.price.replace(/[^0-9.]/g, ""));
   const verb = preorder ? "Preorder" : "Buy";
   let qty = 1;
+  // "This is a gift" + note: sent to Shopify as cart attributes (shown under Notes on the order).
+  const giftToggle = document.querySelector("[data-gift-toggle]");
+  const giftNote = document.querySelector("[data-gift-note]");
+  const giftMessage = document.querySelector("[data-gift-message]");
+  const giftQuery = () => {
+    if (!giftToggle?.checked) return "";
+    let q = "attributes[Gift]=Yes";
+    const note = giftMessage?.value.trim();
+    if (note) q += `&attributes[Gift%20note]=${encodeURIComponent(note)}`;
+    return q;
+  };
+  giftToggle?.addEventListener("change", () => {
+    if (giftNote) giftNote.hidden = !giftToggle.checked;
+    if (giftToggle.checked) giftMessage?.focus();
+    render();
+  });
+  giftMessage?.addEventListener("input", () => render());
   const render = () => {
-    const url = CONFIG.shopUrl.replace(/:(\d+)(?=\?|$)/, `:${qty}`);
+    const base = CONFIG.shopUrl.replace(/:(\d+)(?=\?|$)/, `:${qty}`);
+    const gift = giftQuery();
+    const url = gift ? `${base}${base.includes("?") ? "&" : "?"}${gift}` : base;
     const total = `$${(unit * qty).toFixed(2)}`;
     buttons.forEach((el) => {
       el.href = url;
