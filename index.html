@@ -104,6 +104,13 @@
             <p class="flap-sub">A little shark, a big ocean, and the moment he finally looks up.</p>
             <p class="price" data-price>$19.99</p>
             <p class="ship-note" data-ship>Ships by December 15 · Free Shipping on 2+ copies</p>
+            <div class="gift" data-gift>
+              <label class="gift-check"><input type="checkbox" data-gift-toggle /> This is a gift</label>
+              <div class="gift-note" data-gift-note hidden>
+                <label for="gift-message">Add a gift note <span class="gift-hint">(optional)</span></label>
+                <textarea id="gift-message" data-gift-message rows="3" maxlength="250" placeholder="Happy birthday, little one! Love, Grandma"></textarea>
+              </div>
+            </div>
             <div class="buy-row">
               <div class="qty" data-qty role="group" aria-label="Quantity">
                 <button type="button" class="qty-btn" data-qty-step="-1" aria-label="One fewer copy">−</button>
